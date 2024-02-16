@@ -36,10 +36,11 @@ class BasketController extends Controller
     public function store(Request $request)
     {
         $products_id = $request->id;
-        $booli = DB::table('basket')->where('products_id', '=', $products_id)
+        $existsProduct = DB::table('basket')
+            ->where('products_id', '=', $products_id)
             ->exists();
 
-        if ( ! $booli) {
+        if ( ! $existsProduct) {
             DB::table('basket')->insert([
                 'products_id' => $products_id,
                 'count' => 1,
