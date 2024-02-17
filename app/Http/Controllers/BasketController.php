@@ -13,9 +13,9 @@ class BasketController extends Controller
      */
     public function index()
     {
-        $query = DB::table('basket');
-        $products = $query->leftJoin('products', 'basket.products_id', '=',
-            'products.id')->get();
+        $products = Basket::query()
+            ->leftJoin('products', 'baskets.products_id', '=',
+                'products.id')->get();
 
         return view('basket.index', compact('products'));
     }
@@ -35,23 +35,23 @@ class BasketController extends Controller
      */
     public function store(Request $request)
     {
-        $products_id = $request->id;
-        $existsProduct = DB::table('basket')
-            ->where('products_id', '=', $products_id)
+        $existsProduct = Basket::where('products_id', '=', $request->id)
             ->exists();
 
+
         if ( ! $existsProduct) {
-            DB::table('basket')->insert([
-                'products_id' => $products_id,
+            Basket::query()->create([
+                'products_id' => $request->id,
                 'count' => 1,
             ]);
         } else {
-            $product = DB::table('basket')
-                ->where('products_id', '=', $products_id)->get('count');
+            $product = Basket::query()
+                ->where('products_id', '=', $request->id)
+                ->get('count');
             $count = $product->value('count') + 1;
 
-            DB::table('basket')
-                ->where('products_id', '=', $products_id)
+            Basket::query()
+                ->where('products_id', '=', $request->id)
                 ->update(['count' => $count]);
         }
 
@@ -85,8 +85,12 @@ class BasketController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $res = Basket::where('products_id', $id)->delete();
+
+        return redirect()->route('basket');
     }
+
+
 }

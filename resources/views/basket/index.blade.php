@@ -16,6 +16,7 @@
                 <th scope="col">Имя</th>
                 <th scope="col">Цена</th>
                 <th scope="col">Количество</th>
+                <th scope="col">Удалить</th>
             </tr>
             </thead>
             <tbody>
@@ -33,6 +34,16 @@
                         </td>
                         <td>
                             {{ $product->count }}
+                        </td>
+                        <td>
+                            <form action="{{route('basket.destroy', $product->id)}}" method="POST">
+                                @csrf
+                                @method('delete')
+                                @method('delete')
+                                <x-button type="submit" class="btn-dark btn-outline-danger">
+                                    {{'Удалить'}}
+                                </x-button>
+                            </form>
                         </td>
                     </div>
                 </tr>
