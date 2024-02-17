@@ -36,7 +36,7 @@
                             {{ $product->price }}
                         </td>
                         <td>
-                            <form action="{{route('basket.store', $product->id)}}" method="GET">
+                            <form action="{{route('basket.store')}}" method="GET">
                                 <x-input type="hidden" name="id" value="{{$product->id}}"/>
                                 <x-button type="submit">
                                     {{'Добавить'}}
