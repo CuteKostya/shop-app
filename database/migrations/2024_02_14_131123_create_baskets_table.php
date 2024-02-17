@@ -10,7 +10,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('basket', function (Blueprint $table) {
+        Schema::create('baskets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('products_id')->constrained();
             $table->integer('count');
@@ -23,6 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('basket');
+        Schema::dropIfExists('baskets');
     }
 };
