@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+
     <title>@yield('title')</title>
 </head>
 
@@ -22,9 +23,19 @@
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{{route('products')}}">Home</a>
+
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('basket')}}">Корзина</a>
+                        <a class="nav-link" href="{{route('basket')}}">
+                            Корзина
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        @if($countProducts)
+                            <h3 class="badge badge-light"
+                                style="color: red; background-color: gray;">{{ $countProducts }}
+                            </h3>
+                        @endif
                     </li>
                 </ul>
             </div>
