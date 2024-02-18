@@ -39,7 +39,6 @@
                             <form action="{{route('basket.destroy', $product->id)}}" method="POST">
                                 @csrf
                                 @method('delete')
-                                @method('delete')
                                 <x-button type="submit" class="btn-dark btn-outline-danger">
                                     {{'Удалить'}}
                                 </x-button>
@@ -49,6 +48,23 @@
                 </tr>
             @endforeach
             </tbody>
+            <tfoot>
+            <tr class="table-warning">
+                <th scope="col">
+                    <form action="{{route('basket.destroyAll')}}" method="POST">
+                        @csrf
+                        @method('delete')
+                        <x-button type="submit" class="btn btn-danger">
+                            {{'Очистить таблицу'}}
+                        </x-button>
+                    </form>
+                </th>
+                <th scope="col"></th>
+                <th scope="col">Цена</th>
+                <th scope="col">Количество</th>
+                <th scope="col"></th>
+            </tr>
+            </tfoot>
         </table>
     @endif
 @endsection

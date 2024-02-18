@@ -25,3 +25,5 @@ Route::get('basket/store', [BasketController::class, 'store'])
 
 Route::delete('basket/{id}', [BasketController::class, 'destroy'])
     ->name('basket.destroy');
+Route::delete('basket', [BasketController::class, 'destroyAll'])
+    ->name('basket.destroyAll');

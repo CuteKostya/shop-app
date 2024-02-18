@@ -92,5 +92,10 @@ class BasketController extends Controller
         return redirect()->route('basket');
     }
 
+    public function destroyAll(Request $request)
+    {
+        $res = Basket::truncate();
 
+        return redirect()->route('basket');
+    }
 }
