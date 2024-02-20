@@ -36,12 +36,33 @@
                             {{ $product->price }}
                         </td>
                         <td>
-                            <form action="{{route('basket.store')}}" method="GET">
-                                <x-input type="hidden" name="id" value="{{$product->id}}"/>
-                                <x-button type="submit">
-                                    {{'Добавить'}}
-                                </x-button>
-                            </form>
+                            @if($product->count)
+
+                                <form action="{{ route('products.update', $product->id) }}" method="PUT">
+
+                                    <button type="submit" class="btn btn-secondary" name="action"
+                                            value="decrease">-
+                                    </button>
+
+                                    <input name="quantity"
+                                           style="width: 60px"
+                                           value=" {{ $product->count }}">
+
+                                    <button type="submit" class="btn btn-secondary" name="action"
+                                            value="increase">+
+                                    </button>
+
+                                </form>
+
+                            @else
+                                <form action="{{route('basket.store')}}" method="GET">
+                                    <x-input type="hidden" name="id" value="{{$product->id}}"/>
+                                    <x-button type="submit">
+                                        {{'Добавить'}}
+                                    </x-button>
+                                </form>
+                            @endif
+
                         </td>
                     </div>
                 </tr>

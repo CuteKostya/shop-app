@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('products', [ProductsController::class, 'index'])
     ->name('products');
+Route::get('products/{id}', [ProductsController::class, 'update'])
+    ->name('products.update');
 
 Route::get('basket', [BasketController::class, 'index'])
     ->name('basket');
