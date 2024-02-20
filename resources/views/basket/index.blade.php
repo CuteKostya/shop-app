@@ -62,7 +62,15 @@
                 <th scope="col"></th>
                 <th scope="col">Цена</th>
                 <th scope="col">Количество</th>
-                <th scope="col"></th>
+                <th scope="col">
+                    <form action="{{route('order.store')}}" method="GET">
+
+                        
+                        <x-button type="submit" class="btn btn-danger">
+                            {{'Забронировать'}}
+                        </x-button>
+                    </form>
+                </th>
             </tr>
             </tfoot>
         </table>

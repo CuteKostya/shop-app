@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BasketController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,7 @@ Route::get('products', [ProductsController::class, 'index'])
 Route::get('products/{id}', [ProductsController::class, 'update'])
     ->name('products.update');
 
+
 Route::get('basket', [BasketController::class, 'index'])
     ->name('basket');
 Route::get('basket/store', [BasketController::class, 'store'])
@@ -29,3 +31,7 @@ Route::delete('basket/{id}', [BasketController::class, 'destroy'])
     ->name('basket.destroy');
 Route::delete('basket', [BasketController::class, 'destroyAll'])
     ->name('basket.destroyAll');
+
+
+Route::get('order/store', [OrderController::class, 'store'])
+    ->name('order.store');

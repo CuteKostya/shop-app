@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Order_items extends Model
+class Order extends Model
 {
     use HasApiTokens, Notifiable;
 
@@ -20,8 +20,7 @@ class Order_items extends Model
     protected $fillable
         = [
             'id',
-            'orders_id',
-            'products_id',
+
 
         ];
 
