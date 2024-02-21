@@ -22,6 +22,7 @@ class Order_item extends Model
             'id',
             'orders_id',
             'products_id',
+            'count',
 
         ];
 

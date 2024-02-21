@@ -37,6 +37,11 @@
                             </h3>
                         @endif
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('order')}}">
+                            Заказы
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

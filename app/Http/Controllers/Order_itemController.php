@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Basket;
-use App\Models\Order;
 use App\Models\Order_item;
 use Illuminate\Http\Request;
 
-class OrderController extends Controller
+class Order_itemController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $orders = Order::all();
-
-        return view('order.index', compact('orders'));
+        //
     }
 
     /**
@@ -33,30 +29,6 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         //
-
-        $order = new Order();
-        $order->save();
-
-
-        $products = Basket::all();
-
-        foreach ($products as $product) {
-            $order_item = new Order_item();
-
-            $order_item->fill([
-
-                'orders_id' => $order->id,
-                'products_id' => $product->products_id,
-                'count' => $product->count,
-            ]);
-            $order_item->save();
-        }
-        Basket::truncate();
-
-        $products = Basket::all();
-
-
-        return redirect()->route('basket');
     }
 
     /**
@@ -65,14 +37,6 @@ class OrderController extends Controller
     public function show(string $id)
     {
         //
-
-        $products = Order_item::query()
-            ->leftJoin('products', 'Order_items.products_id', '=',
-                'products.id')
-            ->where('orders_id', '=', $id)->get();
-
-
-        return view('order.show', compact('products'));
     }
 
     /**
