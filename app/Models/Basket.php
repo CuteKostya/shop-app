@@ -13,6 +13,7 @@ class Basket extends Model
         = [
             'id',
             'products_id',
+            'users_id',
             'count',
         ];
 }

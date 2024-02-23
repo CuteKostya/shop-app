@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\BasketController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Order_itemController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -18,27 +20,47 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('products', [ProductsController::class, 'index'])
-    ->name('products');
-Route::get('products/{id}', [ProductsController::class, 'update'])
-    ->name('products.update');
+Route::middleware('guest')->group(function () {
+    Route::get('register', [RegisterController::class, 'index'])
+        ->middleware('guest')
+        ->name('register');
+    Route::post('register', [RegisterController::class, 'store'])
+        ->name('register.store');
+
+    Route::get('login', [LoginController::class, 'index'])
+        ->name('login');
+    Route::post('login', [LoginController::class, 'store'])
+        ->name('login.store');
+});
 
 
-Route::get('basket', [BasketController::class, 'index'])
-    ->name('basket');
-Route::get('basket/store', [BasketController::class, 'store'])
-    ->name('basket.store');
+Route::middleware('auth')->group(function () {
+    Route::get('login/logout', [LoginController::class, 'logout'])
+        ->name('login.logout');
 
-Route::delete('basket/{id}', [BasketController::class, 'destroy'])
-    ->name('basket.destroy');
-Route::delete('basket', [BasketController::class, 'destroyAll'])
-    ->name('basket.destroyAll');
+    Route::get('products', [ProductsController::class, 'index'])
+        ->name('products');
+    Route::get('products/{id}', [ProductsController::class, 'update'])
+        ->name('products.update');
 
-Route::get('order', [OrderController::class, 'index'])
-    ->name('order');
 
-Route::get('order/store', [OrderController::class, 'store'])
-    ->name('order.store');
+    Route::get('basket', [BasketController::class, 'index'])
+        ->name('basket');
+    Route::get('basket/store', [BasketController::class, 'store'])
+        ->name('basket.store');
 
-Route::get('order/{id}', [OrderController::class, 'show'])
-    ->name('order.show');
+    Route::delete('basket/{id}', [BasketController::class, 'destroy'])
+        ->name('basket.destroy');
+    Route::delete('basket', [BasketController::class, 'destroyAll'])
+        ->name('basket.destroyAll');
+
+    Route::get('order', [OrderController::class, 'index'])
+        ->name('order');
+
+    Route::get('order/store', [OrderController::class, 'store'])
+        ->name('order.store');
+
+    Route::get('order/{id}', [OrderController::class, 'show'])
+        ->name('order.show');
+});
+

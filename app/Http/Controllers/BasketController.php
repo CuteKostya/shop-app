@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Basket;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class BasketController extends Controller
@@ -40,8 +41,11 @@ class BasketController extends Controller
 
 
         if ( ! $existsProduct) {
+            $user = Auth::user();
+            $userId = $user->id;
             Basket::query()->create([
                 'products_id' => $request->id,
+                'users_id' => $userId,
                 'count' => 1,
             ]);
         } else {

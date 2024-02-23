@@ -6,6 +6,7 @@ use App\Models\Basket;
 use App\Models\Order;
 use App\Models\Order_item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -33,8 +34,11 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         //
+        $user = Auth::user();
+        $userId = $user->id;
 
         $order = new Order();
+        $order->user_id = $userId;
         $order->save();
 
 
