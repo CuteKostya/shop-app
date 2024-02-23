@@ -3,22 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Basket;
-use App\Models\Products;
+use App\Models\Product;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class ProductsController extends Controller
+class ProductController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $products = Products::query()
-            ->leftJoin('baskets', 'products.id', '=', 'baskets.products_id')
+        $products = Product::query()
+            ->leftJoin('baskets', 'products.id', '=', 'baskets.product_id')
             ->select('products.id', 'products.name', 'products.description',
                 'products.price', 'baskets.count')
             ->get();
-
 
         return view('products.index', compact('products'));
     }
@@ -61,12 +63,12 @@ class ProductsController extends Controller
     public function update(Request $request, string $id)
     {
         if ($request->input('action') == 'increase') {
-            $product = Basket::query()->where('products_id', $id)->first();
+            $product = Basket::query()->where('product_id', $id)->first();
 
             $product->count++;
             $product->save();
         } elseif ($request->input('action') == 'decrease') {
-            $product = Basket::query()->where('products_id', $id)->first();
+            $product = Basket::query()->where('product_id', $id)->first();
             $product->count--;
             $product->save();
             if ($product->count <= 0) {
@@ -75,7 +77,7 @@ class ProductsController extends Controller
         }
 
 
-        return redirect()->route('products');
+        return redirect()->route('product');
     }
 
     /**

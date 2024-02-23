@@ -14,9 +14,12 @@ class BasketController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        $userId = $user->id;
+
         $products = Basket::query()
-            ->leftJoin('products', 'baskets.products_id', '=',
-                'products.id')->get();
+            ->leftJoin('products', 'baskets.product_id', '=',
+                'products.id')->where('user_id', '=', $userId)->get();
 
         return view('basket.index', compact('products'));
     }
@@ -36,7 +39,10 @@ class BasketController extends Controller
      */
     public function store(Request $request)
     {
-        $existsProduct = Basket::where('products_id', '=', $request->id)
+        $user = Auth::user();
+        $userId = $user->id;
+        $existsProduct = Basket::where('product_id', '=', $request->id)
+            ->where('user_id', '=', $userId)
             ->exists();
 
 
@@ -44,22 +50,22 @@ class BasketController extends Controller
             $user = Auth::user();
             $userId = $user->id;
             Basket::query()->create([
-                'products_id' => $request->id,
-                'users_id' => $userId,
+                'product_id' => $request->id,
+                'user_id' => $userId,
                 'count' => 1,
             ]);
         } else {
             $product = Basket::query()
-                ->where('products_id', '=', $request->id)
+                ->where('product_id', '=', $request->id)
                 ->get('count');
             $count = $product->value('count') + 1;
 
             Basket::query()
-                ->where('products_id', '=', $request->id)
+                ->where('product_id', '=', $request->id)
                 ->update(['count' => $count]);
         }
 
-        return redirect()->route('products');
+        return redirect()->route('product');
     }
 
     /**
@@ -91,7 +97,10 @@ class BasketController extends Controller
      */
     public function destroy($id)
     {
-        $res = Basket::where('products_id', $id)->delete();
+        $user = Auth::user();
+        $userId = $user->id;
+        $res = Basket::where('product_id', $id)->where('user_id', '=', $userId)
+            ->delete();
 
         return redirect()->route('basket');
     }

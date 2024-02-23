@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Products extends Model
+class Product extends Model
 {
     use HasApiTokens, Notifiable;
+    use HasFactory;
 
     /**
      * The attributes that are mass assignable.

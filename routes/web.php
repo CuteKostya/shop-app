@@ -4,7 +4,7 @@ use App\Http\Controllers\BasketController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Order_itemController;
 use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,10 +38,10 @@ Route::middleware('auth')->group(function () {
     Route::get('login/logout', [LoginController::class, 'logout'])
         ->name('login.logout');
 
-    Route::get('products', [ProductsController::class, 'index'])
-        ->name('products');
-    Route::get('products/{id}', [ProductsController::class, 'update'])
-        ->name('products.update');
+    Route::get('product', [ProductController::class, 'index'])
+        ->name('product');
+    Route::get('product/{id}', [ProductController::class, 'update'])
+        ->name('product.update');
 
 
     Route::get('basket', [BasketController::class, 'index'])
@@ -64,3 +64,8 @@ Route::middleware('auth')->group(function () {
         ->name('order.show');
 });
 
+Route::get('/clear', function () {
+    Log::debug('CLEARED');
+
+    return "Кэш очищен.";
+});

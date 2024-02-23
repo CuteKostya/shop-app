@@ -38,7 +38,7 @@
                         <td>
                             @if($product->count)
 
-                                <form action="{{ route('products.update', $product->id) }}" method="PUT">
+                                <form action="{{ route('product.update', $product->id) }}" method="PUT">
 
                                     <button type="submit" class="btn btn-secondary" name="action"
                                             value="decrease">-

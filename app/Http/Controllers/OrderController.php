@@ -15,7 +15,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::all();
+        $user = Auth::user();
+        $userId = $user->id;
+
+        $orders = Order::query()->where('user_id', '=', $userId)->get();
 
         return view('order.index', compact('orders'));
     }
@@ -49,8 +52,8 @@ class OrderController extends Controller
 
             $order_item->fill([
 
-                'orders_id' => $order->id,
-                'products_id' => $product->products_id,
+                'order_id' => $order->id,
+                'product_id' => $product->product_id,
                 'count' => $product->count,
             ]);
             $order_item->save();
@@ -69,11 +72,11 @@ class OrderController extends Controller
     public function show(string $id)
     {
         //
-
+        $user = Auth::user();
+        $userId = $user->id;
         $products = Order_item::query()
-            ->leftJoin('products', 'Order_items.products_id', '=',
-                'products.id')
-            ->where('orders_id', '=', $id)->get();
+            ->leftJoin('products', 'Order_items.product_id', '=', 'products.id')
+            ->where('order_id', '=', $id)->get();
 
 
         return view('order.show', compact('products'));

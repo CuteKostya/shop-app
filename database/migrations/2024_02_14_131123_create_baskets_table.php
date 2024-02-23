@@ -12,7 +12,8 @@ return new class extends Migration {
     {
         Schema::create('baskets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('products_id')->constrained();
+            $table->foreignId('product_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->integer('count');
             $table->timestamps();
         });

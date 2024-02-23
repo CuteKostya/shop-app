@@ -20,8 +20,8 @@ class Order_item extends Model
     protected $fillable
         = [
             'id',
-            'orders_id',
-            'products_id',
+            'order_id',
+            'product_id',
             'count',
 
         ];
