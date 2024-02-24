@@ -16,8 +16,14 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        $userId = $user->id;
+
         $products = Product::query()
-            ->leftJoin('baskets', 'products.id', '=', 'baskets.product_id')
+            ->leftJoin('baskets', function ($join) use ($userId) {
+                $join->on('products.id', '=', 'baskets.product_id')
+                    ->where('baskets.user_id', $userId);
+            })
             ->select('products.id', 'products.name', 'products.description',
                 'products.price', 'baskets.count')
             ->get();
@@ -62,13 +68,15 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $user = Auth::user();
+        $userId = $user->id;
+        $product = Basket::query()
+            ->where('product_id', $id)
+            ->where('user_id', '=', $userId)->first();
         if ($request->input('action') == 'increase') {
-            $product = Basket::query()->where('product_id', $id)->first();
-
             $product->count++;
             $product->save();
         } elseif ($request->input('action') == 'decrease') {
-            $product = Basket::query()->where('product_id', $id)->first();
             $product->count--;
             $product->save();
             if ($product->count <= 0) {

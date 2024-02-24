@@ -99,7 +99,7 @@ class BasketController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
-        $res = Basket::where('product_id', $id)->where('user_id', '=', $userId)
+        $res = Basket::where('product_id', $id)
             ->delete();
 
         return redirect()->route('basket');
@@ -107,7 +107,10 @@ class BasketController extends Controller
 
     public function destroyAll(Request $request)
     {
-        $res = Basket::truncate();
+        $user = Auth::user();
+        $userId = $user->id;
+        $res = Basket::where('user_id', '=', $userId)
+            ->delete();
 
         return redirect()->route('basket');
     }
