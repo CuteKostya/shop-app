@@ -17,9 +17,11 @@
                 <th scope="col">Описание</th>
                 <th scope="col">Цена</th>
                 <th scope="col">Корзина</th>
+                <th scope="col">Корзина</th>
             </tr>
             </thead>
             <tbody>
+
             @foreach($products as $product)
                 <tr>
                     <div class="col-12 col-md-4">
@@ -36,40 +38,20 @@
                             {{ $product->price }}
                         </td>
                         <td>
-                            <form action="{{route('products.show', $product->id)}}" method="GET">
+                            <form action="{{route('admin-panel.destroy', $product->id)}}" method="GET">
                                 <x-button type="submit">
-                                    {{'Просмотреть'}}
+                                    {{'Редактировать'}}
                                 </x-button>
                             </form>
                         </td>
                         <td>
-                            @if($product->count)
-
-                                <form action="{{ route('products.update', $product->id) }}" method="PUT">
-
-                                    <button type="submit" class="btn btn-secondary" name="action"
-                                            value="decrease">-
-                                    </button>
-
-                                    <input name="quantity"
-                                           style="width: 60px"
-                                           value=" {{ $product->count }}">
-
-                                    <button type="submit" class="btn btn-secondary" name="action"
-                                            value="increase">+
-                                    </button>
-
-                                </form>
-
-                            @else
-                                <form action="{{route('basket.store')}}" method="GET">
-                                    <x-input type="hidden" name="id" value="{{$product->id}}"/>
-                                    <x-button type="submit">
-                                        {{'Добавить'}}
-                                    </x-button>
-                                </form>
-                            @endif
-
+                            <form action="{{route('admin-panel.destroy', $product->id)}}" method="POST">
+                                @csrf
+                                @method('delete')
+                                <x-button type="submit" class="btn-dark btn-outline-danger">
+                                    {{'Удалить'}}
+                                </x-button>
+                            </form>
                         </td>
                     </div>
                 </tr>
