@@ -23,7 +23,7 @@ class ProductController extends Controller
             ->leftJoin('baskets', function ($join) use ($userId) {
                 $join->on('products.id', '=', 'baskets.product_id')
                     ->where('baskets.user_id', $userId);
-            })
+            })->where('withdrawn', false)
             ->select('products.id', 'products.name', 'products.description',
                 'products.price', 'baskets.count')
             ->get();

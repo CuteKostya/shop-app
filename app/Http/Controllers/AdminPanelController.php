@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Basket;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -60,7 +61,7 @@ class AdminPanelController extends Controller
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:50'],
-            'description' => ['required', 'string', 'max:50'],
+            'description' => ['required', 'string', 'max:150'],
             'price' => ['required', 'integer'],
         ]);
         Product::query()->where('id', '=', $id)->update($validated);
@@ -73,6 +74,15 @@ class AdminPanelController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $res = Product::where('id', $id)
+            ->update(['withdrawn' => true]);
+
+        $products = Basket::query()
+            ->leftJoin('products', 'products.id', '=', 'baskets.product_id')
+            ->where('withdrawn', true)
+            ->where('products.id', $id)
+            ->delete();
+
+        return redirect()->route('adminPanel');
     }
 }

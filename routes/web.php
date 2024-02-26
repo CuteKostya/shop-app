@@ -41,11 +41,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('products', [ProductController::class, 'index'])
         ->name('products');
-    Route::get('products/{id}', [ProductController::class, 'update'])
-        ->name('products.update');
+
     Route::get('products/{id}', [ProductController::class, 'show'])
         ->name('products.show');
-
+    Route::put('products/{id}', [ProductController::class, 'update'])
+        ->name('products.update');
+    
 
     Route::get('basket', [BasketController::class, 'index'])
         ->name('basket');

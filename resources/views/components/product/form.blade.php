@@ -1,4 +1,4 @@
-@props(['products' =>null])
+@props(['product' => null])
 
 
 <x-form {{ $attributes }} enctype="multipart/form-data">
