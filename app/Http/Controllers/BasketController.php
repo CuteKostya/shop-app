@@ -65,7 +65,7 @@ class BasketController extends Controller
                 ->update(['count' => $count]);
         }
 
-        return redirect()->route('product');
+        return redirect()->route('products');
     }
 
     /**

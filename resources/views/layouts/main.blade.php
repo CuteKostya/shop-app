@@ -17,7 +17,7 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{route('product')}}">Каталог</a>
+                        <a class="nav-link active" aria-current="page" href="{{route('products')}}">Каталог</a>
 
                     </li>
                     <li class="nav-item">
@@ -37,7 +37,17 @@
                             Заказы
                         </a>
                     </li>
+                    <li class="nav-item">
+                        @if(Auth::user() != null)
+                            @if(Auth::user()->admin)
+                                <a class="nav-link" aria-current="page" href="{{route('adminPanel')}}">
+                                    Панель администратора
+                                </a>
+                            @endif
+                        @endif
+                    </li>
                 </ul>
+
             </div>
         </div>
 

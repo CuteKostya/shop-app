@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\BasketController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Order_itemController;
@@ -38,10 +39,12 @@ Route::middleware('auth')->group(function () {
     Route::get('login/logout', [LoginController::class, 'logout'])
         ->name('login.logout');
 
-    Route::get('product', [ProductController::class, 'index'])
-        ->name('product');
-    Route::get('product/{id}', [ProductController::class, 'update'])
-        ->name('product.update');
+    Route::get('products', [ProductController::class, 'index'])
+        ->name('products');
+    Route::get('products/{id}', [ProductController::class, 'update'])
+        ->name('products.update');
+    Route::get('products/{id}', [ProductController::class, 'show'])
+        ->name('products.show');
 
 
     Route::get('basket', [BasketController::class, 'index'])
@@ -64,8 +67,13 @@ Route::middleware('auth')->group(function () {
         ->name('order.show');
 });
 
-Route::get('/clear', function () {
-    Log::debug('CLEARED');
 
-    return "Кэш очищен.";
-});
+Route::get('adminPanel', [AdminPanelController::class, 'index'])
+    ->name('adminPanel');
+Route::get('adminPanel/{id}', [AdminPanelController::class, 'edit'])
+    ->name('admin-panel.edit');
+Route::put('adminPanel/{id}', [AdminPanelController::class, 'update'])
+    ->name('admin-panel.update');
+
+Route::delete('adminPanel/{id}', [AdminPanelController::class, 'destroy'])
+    ->name('admin-panel.destroy');

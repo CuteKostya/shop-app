@@ -53,6 +53,9 @@ class ProductController extends Controller
     public function show(string $id)
     {
         //
+        $product = Product::query()->where('id', '=', $id)
+            ->first();
+        return view('products.show', compact('product'));
     }
 
     /**
@@ -85,7 +88,7 @@ class ProductController extends Controller
         }
 
 
-        return redirect()->route('product');
+        return redirect()->route('products');
     }
 
     /**
