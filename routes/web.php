@@ -67,18 +67,19 @@ Route::middleware('auth')->group(function () {
         ->name('order.show');
 });
 
+Route::middleware('admin')->group(function () {
+    Route::get('adminPanel', [AdminPanelController::class, 'index'])
+        ->name('adminPanel');
+    Route::post('adminPanel', [AdminPanelController::class, 'create'])
+        ->name('admin-panel.create');
+    Route::post('adminPanel/store', [AdminPanelController::class, 'store'])
+        ->name('admin-panel.store');
 
-Route::get('adminPanel', [AdminPanelController::class, 'index'])
-    ->name('adminPanel');
-Route::post('adminPanel', [AdminPanelController::class, 'create'])
-    ->name('admin-panel.create');
-Route::post('adminPanel/store', [AdminPanelController::class, 'store'])
-    ->name('admin-panel.store');
+    Route::get('adminPanel/{id}', [AdminPanelController::class, 'edit'])
+        ->name('admin-panel.edit');
+    Route::put('adminPanel/{id}', [AdminPanelController::class, 'update'])
+        ->name('admin-panel.update');
 
-Route::get('adminPanel/{id}', [AdminPanelController::class, 'edit'])
-    ->name('admin-panel.edit');
-Route::put('adminPanel/{id}', [AdminPanelController::class, 'update'])
-    ->name('admin-panel.update');
-
-Route::delete('adminPanel/{id}', [AdminPanelController::class, 'destroy'])
-    ->name('admin-panel.destroy');
+    Route::delete('adminPanel/{id}', [AdminPanelController::class, 'destroy'])
+        ->name('admin-panel.destroy');
+});

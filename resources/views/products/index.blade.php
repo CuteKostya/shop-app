@@ -46,23 +46,27 @@
                         <td>
                             @if($product->count)
 
-                                <form action="{{ route('products.update', $product->id) }}" method="PUT">
-
-                                    <button type="submit" class="btn btn-secondary" name="action"
-                                            value="decrease">-
-                                    </button>
-
-                                    <label>
-                                        <input name="quantity"
-                                               style="width: 60px"
-                                               value=" {{ $product->count }}">
-                                    </label>
-
-                                    <button type="submit" class="btn btn-secondary" name="action"
-                                            value="increase">+
-                                    </button>
-
-                                </form>
+                                <x-form action="{{ route('products.update', $product->id) }}" method="put">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <button type="submit" class="btn btn-secondary" name="action"
+                                                    value="decrease">-
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label>
+                                                <input name="quantity"
+                                                       style="width: 30px"
+                                                       value=" {{ $product->count }}">
+                                            </label>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button type="submit" class="btn btn-secondary" name="action"
+                                                    value="increase">+
+                                            </button>
+                                        </div>
+                                    </div>
+                                </x-form>
 
                             @else
                                 <form action="{{route('basket.store')}}" method="GET">
