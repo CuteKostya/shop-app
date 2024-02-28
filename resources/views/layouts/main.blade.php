@@ -17,11 +17,13 @@
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{route('products')}}">Каталог</a>
-
+                        <a class="nav-link {{ request()->is('products') ? 'active' : null }}"
+                           href="{{route('products')}}">Каталог</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('basket')}}">
+
+                        <a class="nav-link {{ request()->is('basket') ? 'active' : null }}"
+                           href="{{route('basket')}}">
                             Корзина
                         </a>
                     </li>
@@ -33,14 +35,16 @@
                         @endif
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('order')}}">
+                        <a class="nav-link {{ request()->is('order') ? 'active' : null }}"
+                           href="{{route('order')}}">
                             Заказы
                         </a>
                     </li>
                     <li class="nav-item">
                         @if(Auth::user() != null)
                             @if(Auth::user()->admin)
-                                <a class="nav-link" aria-current="page" href="{{route('adminPanel')}}">
+                                <a class="nav-link {{ request()->is('adminPanel') ? 'active' : null }}"
+                                   href="{{route('adminPanel')}}">
                                     Панель администратора
                                 </a>
                             @endif
