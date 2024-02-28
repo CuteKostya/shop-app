@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Basket;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
@@ -40,6 +41,7 @@ class AppServiceProvider extends ServiceProvider
 //                ->where('user_id', '=', $userId)
 //                ->first()->total;
 //            dd($total);
+        Paginator::useBootstrapFive();
         View::share('countProducts', 0);
 //        }
     }

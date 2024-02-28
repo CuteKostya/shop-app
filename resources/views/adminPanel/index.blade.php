@@ -5,7 +5,9 @@
 @endsection
 
 @section('main_content')
-
+    <x-form action="{{route('admin-panel.create')}}" method="post">
+        <x-button type="submit"> Создать товар</x-button>
+    </x-form>
     @if($products->isEmpty())
         {{  __("Товаров нет")}}
     @else
@@ -16,8 +18,8 @@
                 <th scope="col">Name</th>
                 <th scope="col">Описание</th>
                 <th scope="col">Цена</th>
-                <th scope="col">Корзина</th>
-                <th scope="col">Корзина</th>
+                <th scope="col">Редактирование</th>
+                <th scope="col">Состояние</th>
             </tr>
             </thead>
             <tbody>
@@ -48,9 +50,15 @@
                             <form action="{{route('admin-panel.destroy', $product->id)}}" method="POST">
                                 @csrf
                                 @method('delete')
-                                <x-button type="submit" class="btn-dark btn-outline-danger">
-                                    {{'Удалить'}}
-                                </x-button>
+                                @if(!$product->withdrawn)
+                                    <x-button type="submit" class="btn-dark btn-outline-danger">
+                                        {{'Удалить'}}
+                                    </x-button>
+                                @else
+                                    <x-button type="submit">
+                                        {{'Восстановить'}}
+                                    </x-button>
+                                @endif
                             </form>
                         </td>
                     </div>
@@ -58,5 +66,6 @@
             @endforeach
             </tbody>
         </table>
+        {{$products->links()}}
     @endif
 @endsection

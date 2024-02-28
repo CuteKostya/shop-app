@@ -19,14 +19,16 @@ class ProductController extends Controller
         $user = Auth::user();
         $userId = $user->id;
 
-        $products = Product::query()
+        $query = Product::query()
             ->leftJoin('baskets', function ($join) use ($userId) {
                 $join->on('products.id', '=', 'baskets.product_id')
                     ->where('baskets.user_id', $userId);
             })->where('withdrawn', false)
             ->select('products.id', 'products.name', 'products.description',
-                'products.price', 'baskets.count')
-            ->get();
+                'products.price', 'baskets.count');
+
+        $limit = 10;
+        $products = $query->paginate($limit);
 
         return view('products.index', compact('products'));
     }

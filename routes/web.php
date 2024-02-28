@@ -46,7 +46,6 @@ Route::middleware('auth')->group(function () {
         ->name('products.show');
     Route::put('products/{id}', [ProductController::class, 'update'])
         ->name('products.update');
-    
 
     Route::get('basket', [BasketController::class, 'index'])
         ->name('basket');
@@ -71,6 +70,11 @@ Route::middleware('auth')->group(function () {
 
 Route::get('adminPanel', [AdminPanelController::class, 'index'])
     ->name('adminPanel');
+Route::post('adminPanel', [AdminPanelController::class, 'create'])
+    ->name('admin-panel.create');
+Route::post('adminPanel/store', [AdminPanelController::class, 'store'])
+    ->name('admin-panel.store');
+
 Route::get('adminPanel/{id}', [AdminPanelController::class, 'edit'])
     ->name('admin-panel.edit');
 Route::put('adminPanel/{id}', [AdminPanelController::class, 'update'])

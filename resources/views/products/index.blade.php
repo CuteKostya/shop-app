@@ -16,6 +16,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Описание</th>
                 <th scope="col">Цена</th>
+                <th scope="col">Просмотр</th>
                 <th scope="col">Корзина</th>
             </tr>
             </thead>
@@ -36,7 +37,7 @@
                             {{ $product->price }}
                         </td>
                         <td>
-                            <form action="{{route('products.show', $product->id)}}" method="GET">
+                            <form action="{{route('products.show', $product->id)}}" method="get">
                                 <x-button type="submit">
                                     {{'Просмотреть'}}
                                 </x-button>
@@ -51,9 +52,11 @@
                                             value="decrease">-
                                     </button>
 
-                                    <input name="quantity"
-                                           style="width: 60px"
-                                           value=" {{ $product->count }}">
+                                    <label>
+                                        <input name="quantity"
+                                               style="width: 60px"
+                                               value=" {{ $product->count }}">
+                                    </label>
 
                                     <button type="submit" class="btn btn-secondary" name="action"
                                             value="increase">+
@@ -76,5 +79,6 @@
             @endforeach
             </tbody>
         </table>
+        {{$products->links()}}
     @endif
 @endsection

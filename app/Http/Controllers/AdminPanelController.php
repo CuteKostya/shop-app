@@ -14,8 +14,10 @@ class AdminPanelController extends Controller
     public function index()
     {
         //
-        $products = Product::query()
-            ->get();
+        $query = Product::query();
+        $limit = 10;
+        $products = $query->paginate($limit);
+
         return view('adminPanel.index', compact('products'));
     }
 
@@ -25,6 +27,8 @@ class AdminPanelController extends Controller
     public function create()
     {
         //
+
+        return view('adminPanel.create');
     }
 
     /**
@@ -32,7 +36,20 @@ class AdminPanelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:50'],
+            'description' => ['required', 'string', 'max:150'],
+            'price' => ['required', 'integer'],
+        ]);
+
+
+        $product = Product::query()->create([
+            'name' => $validated['name'],
+            'description' => $validated['description'],
+            'price' => $validated['price'],
+        ]);
+
+        return redirect()->route('adminPanel');
     }
 
     /**
@@ -74,8 +91,9 @@ class AdminPanelController extends Controller
      */
     public function destroy(string $id)
     {
-        $res = Product::where('id', $id)
-            ->update(['withdrawn' => true]);
+        $product = Product::where('id', $id)->first();
+        $product->update(['withdrawn' => ! $product->withdrawn]);
+
 
         $products = Basket::query()
             ->leftJoin('products', 'products.id', '=', 'baskets.product_id')
