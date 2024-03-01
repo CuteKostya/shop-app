@@ -27,7 +27,6 @@
 </x-form>
 
 <script>
-    const formElement = document.getElementById('form1'); // извлекаем элемент формы
 
     $('#contactForm').submit(function (event) {
         event.preventDefault();

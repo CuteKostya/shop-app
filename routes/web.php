@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('basket', [BasketController::class, 'index'])
         ->name('basket');
-    Route::get('basket/store', [BasketController::class, 'store'])
+    Route::post('basket/store', [BasketController::class, 'store'])
         ->name('basket.store');
 
     Route::delete('basket/{id}', [BasketController::class, 'destroy'])

@@ -44,38 +44,36 @@
                             </form>
                         </td>
                         <td>
-                            @if($product->count)
 
-                                <x-form action="{{ route('products.update', $product->id) }}" method="put">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <button type="submit" class="btn btn-secondary" name="action"
-                                                    value="decrease">-
-                                            </button>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label>
-                                                <input name="quantity"
-                                                       style="width: 30px"
-                                                       value=" {{ $product->count }}">
-                                            </label>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <button type="submit" class="btn btn-secondary" name="action"
-                                                    value="increase">+
-                                            </button>
-                                        </div>
+
+                            <x-form action="{{ route('products.update', $product->id) }}" method="put">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <button type="submit" class="btn btn-secondary" name="action"
+                                                value="decrease">-
+                                        </button>
                                     </div>
-                                </x-form>
+                                    <div class="col-md-4">
+                                        <label>
+                                            <input name="quantity"
+                                                   style="width: 30px"
+                                                   value=" {{ $product->count }}">
+                                        </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button type="submit" class="btn btn-secondary" name="action"
+                                                value="increase">+
+                                        </button>
+                                    </div>
+                                </div>
+                            </x-form>
 
-                            @else
-                                <form action="{{route('basket.store')}}" method="GET">
-                                    <x-input type="hidden" name="id" value="{{$product->id}}"/>
-                                    <x-button type="submit">
-                                        {{'Добавить'}}
-                                    </x-button>
-                                </form>
-                            @endif
+
+                            <x-button type="submit" onclick="addToBasket({{$product->id}})" id=""
+                                      style="display: {{$product->count ? 'hidden': ''}}}">
+                                {{'Добавить'}}
+                            </x-button>
+
 
                         </td>
                     </div>
@@ -85,4 +83,25 @@
         </table>
         {{$products->links()}}
     @endif
+
+    <script>
+        function addToBasket(productId) {
+            $.ajax({
+                url: "/basket/store",
+                type: "POST",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    productId: productId,
+                },
+
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+
+    </script>
 @endsection

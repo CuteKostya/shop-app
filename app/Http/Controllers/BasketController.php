@@ -41,7 +41,7 @@ class BasketController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
-        $existsProduct = Basket::where('product_id', '=', $request->id)
+        $existsProduct = Basket::where('product_id', '=', $request->productId)
             ->where('user_id', '=', $userId)
             ->exists();
 
@@ -50,22 +50,22 @@ class BasketController extends Controller
             $user = Auth::user();
             $userId = $user->id;
             Basket::query()->create([
-                'product_id' => $request->id,
+                'product_id' => $request->productId,
                 'user_id' => $userId,
                 'count' => 1,
             ]);
         } else {
             $product = Basket::query()
-                ->where('product_id', '=', $request->id)
+                ->where('product_id', '=', $request->productId)
                 ->get('count');
             $count = $product->value('count') + 1;
 
             Basket::query()
-                ->where('product_id', '=', $request->id)
+                ->where('product_id', '=', $request->productId)
                 ->update(['count' => $count]);
         }
 
-        return redirect()->route('products');
+        return response()->json($request->all());
     }
 
     /**
