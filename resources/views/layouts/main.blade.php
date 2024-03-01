@@ -6,7 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                url: '/helper/countProduct',
+                type: 'POST',
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                },
+                success: function (data) {
+                    document.getElementById('countProducts').textContent = data['countProducts'];
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        });
+    </script>
     <title>@yield('title')</title>
 </head>
 
@@ -28,11 +45,10 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        @if($countProducts)
-                            <h3 class="badge badge-light"
-                                style="color: red; background-color: gray;">{{ $countProducts }}
-                            </h3>
-                        @endif
+                        <h3 class="badge badge-light" id="countProducts"
+                            style="color: red; background-color: gray;">{{ $countProducts }}
+                        </h3>
+
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('order') ? 'active' : null }}"

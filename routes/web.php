@@ -7,6 +7,7 @@ use App\Http\Controllers\Order_itemController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\HelperController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -83,3 +84,5 @@ Route::middleware('admin')->group(function () {
     Route::delete('adminPanel/{id}', [AdminPanelController::class, 'destroy'])
         ->name('admin-panel.destroy');
 });
+
+Route::post('helper/countProduct', [HelperController::class, 'index']);

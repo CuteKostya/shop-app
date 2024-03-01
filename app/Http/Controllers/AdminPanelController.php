@@ -48,8 +48,9 @@ class AdminPanelController extends Controller
             'description' => $validated['description'],
             'price' => $validated['price'],
         ]);
+        $foo = $product;
 
-        return redirect()->route('adminPanel');
+        return response()->json($request->all());
     }
 
     /**
