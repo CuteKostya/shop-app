@@ -62,11 +62,13 @@ class OrderController extends Controller
             ]);
             $order_item->save();
         }
-        Basket::truncate();
+        //Basket::truncate();
 
-        $products = Basket::all();
-
-        Mail::to('k.kudishin421421@yandex.ru')->send(new OrderMail($order));
+        $products = Order_item::query()
+            ->leftJoin('products', 'Order_items.product_id', '=', 'products.id')
+            ->where('order_id', '=', $order->id)->get();
+        Mail::to('k.kudishin421421@yandex.ru')->send(new OrderMail($products,
+            $user));
 
         return redirect()->route('basket');
     }
