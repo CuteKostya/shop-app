@@ -68,7 +68,7 @@ Route::middleware('auth')->group(function () {
         ->name('order.show');
 });
 
-Route::middleware('admin')->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('adminPanel', [AdminPanelController::class, 'index'])
         ->name('adminPanel');
     Route::post('adminPanel', [AdminPanelController::class, 'create'])
