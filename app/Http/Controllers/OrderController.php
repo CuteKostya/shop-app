@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\User\OrderMail;
 use App\Models\Basket;
 use App\Models\Order;
 use App\Models\Order_item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -64,6 +66,7 @@ class OrderController extends Controller
 
         $products = Basket::all();
 
+        Mail::to('k.kudishin421421@yandex.ru')->send(new OrderMail($order));
 
         return redirect()->route('basket');
     }

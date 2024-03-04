@@ -71,26 +71,31 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
+        $id = $request->input('productId');
         $user = Auth::user();
         $userId = $user->id;
         $product = Basket::query()
             ->where('product_id', $id)
             ->where('user_id', '=', $userId)->first();
-        if ($request->input('action') == 'increase') {
+        $count = $product->count;
+        if ($request->input('sign') == 'increase') {
             $product->count++;
+            $count++;
             $product->save();
-        } elseif ($request->input('action') == 'decrease') {
+        } elseif ($request->input('sign') == 'decrease') {
             $product->count--;
+            $count--;
             $product->save();
             if ($product->count <= 0) {
                 $product->delete();
             }
         }
-
-
-        return redirect()->route('products');
+        $result = [
+            'count' => $count,
+        ];
+        return response()->json($result);
     }
 
     /**

@@ -39,6 +39,7 @@ class BasketController extends Controller
      */
     public function store(Request $request)
     {
+        $count = 0;
         $user = Auth::user();
         $userId = $user->id;
         $existsProduct = Basket::where('product_id', '=', $request->productId)
@@ -47,12 +48,13 @@ class BasketController extends Controller
 
 
         if ( ! $existsProduct) {
+            $count = 1;
             $user = Auth::user();
             $userId = $user->id;
             Basket::query()->create([
                 'product_id' => $request->productId,
                 'user_id' => $userId,
-                'count' => 1,
+                'count' => $count,
             ]);
         } else {
             $product = Basket::query()
@@ -65,6 +67,7 @@ class BasketController extends Controller
                 ->update(['count' => $count]);
         }
 
+        $request->merge(['count' => $count]);
         return response()->json($request->all());
     }
 

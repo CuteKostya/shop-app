@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script>
-        $(document).ready(function () {
+        function extracted() {
             $.ajax({
                 url: '/helper/countProduct',
                 type: 'POST',
@@ -24,6 +24,10 @@
                     console.log(textStatus, errorThrown);
                 }
             });
+        }
+
+        $(document).ready(function () {
+            extracted();
         });
     </script>
     <title>@yield('title')</title>
@@ -98,8 +102,10 @@
     </nav>
 </header>
 <main class="flex-shrink-0 pt-5 container">
+
     @yield('main_content')
 </main>
+
 </body>
 
 </html>

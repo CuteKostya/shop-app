@@ -44,37 +44,34 @@
                             </form>
                         </td>
                         <td>
-
-
-                            <x-form action="{{ route('products.update', $product->id) }}" method="put">
+                            <div id="formAddProduct{{$product->id}}"
+                                 style="display: {{$product->count ? 'block': 'none'}}">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <button type="submit" class="btn btn-secondary" name="action"
+                                                onclick="updateToBasket({{$product->id}}, 'decrease')"
                                                 value="decrease">-
                                         </button>
                                     </div>
                                     <div class="col-md-4">
                                         <label>
-                                            <input name="quantity"
+                                            <input name="quantity" id="countProduct{{$product->id}}"
                                                    style="width: 30px"
                                                    value=" {{ $product->count }}">
                                         </label>
                                     </div>
                                     <div class="col-md-4">
-                                        <button type="submit" class="btn btn-secondary" name="action"
-                                                value="increase">+
-                                        </button>
+                                        <x-button class="btn btn-secondary" name="action"
+                                                  onclick="updateToBasket({{$product->id}}, 'increase')"
+                                                  value="increase">+
+                                        </x-button>
                                     </div>
                                 </div>
-                            </x-form>
-
-
-                            <x-button type="submit" onclick="addToBasket({{$product->id}})" id=""
-                                      style="display: {{$product->count ? 'hidden': ''}}}">
+                            </div>
+                            <x-button style="display: {{$product->count ? 'none': 'block'}}"
+                                      onclick="addToBasket({{$product->id}})" id="buttonAddProduct{{$product->id}}">
                                 {{'Добавить'}}
                             </x-button>
-
-
                         </td>
                     </div>
                 </tr>
@@ -85,6 +82,30 @@
     @endif
 
     <script>
+        function updateToBasket(productId, sign) {
+            $.ajax({
+                url: "/products/" + productId,
+                type: "put",
+                data: {
+                    "_token": "{{ csrf_token() }}",
+                    productId: productId,
+                    sign: sign,
+                },
+                success: function (data) {
+                    $("#countProduct" + productId).val(data['count']);
+                    if (data['count'] <= 0) {
+                        $("#buttonAddProduct" + productId).css("display", "block");
+                        $("#formAddProduct" + productId).css("display", "none");
+                    }
+                    extracted();
+                    console.log(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    console.log(textStatus, errorThrown);
+                }
+            });
+        }
+
         function addToBasket(productId) {
             $.ajax({
                 url: "/basket/store",
@@ -95,7 +116,14 @@
                 },
 
                 success: function (data) {
-                    console.log(data);
+                    if (data['count'] > 0) {
+                        $("#buttonAddProduct" + data['productId']).css("display", "none");
+                        $("#formAddProduct" + data['productId']).css("display", "block");
+                        $("#countProduct" + data['productId']).val(data['count']);
+
+                    }
+                    console.log(data['productId']);
+                    extracted();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
                     console.log(textStatus, errorThrown);
