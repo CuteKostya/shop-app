@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminPanelController;
 use App\Http\Controllers\BasketController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Order_itemController;
 use App\Http\Controllers\OrderController;
@@ -66,6 +67,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('order/{id}', [OrderController::class, 'show'])
         ->name('order.show');
+
+    Route::get('comment', [CommentController::class, 'index'])
+        ->name('comment');
+
+    Route::post('comment/store', [CommentController::class, 'store'])
+        ->name('comment.store');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {

@@ -35,5 +35,24 @@
 
         </tbody>
     </table>
-
+    <x-form action="{{ route('comment.store') }}" method="POST">
+        <x-input type="hidden" name="id" value="{{$product->id}}"/>
+        <textarea class="form-control" aria-label="With textarea" name="comment"></textarea>
+        </br>
+        <x-button type="submit">Отправить</x-button>
+    </x-form>
+    </br>
+    </br>
+    @foreach($comments as $comment)
+        <div class="container">
+            <div class="row">
+                <div class="col-2 card card-body">
+                    {{$comment->user_id}}
+                </div>
+                <div class="col-10 card card-body">
+                    {{$comment->description}}
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection

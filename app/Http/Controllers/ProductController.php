@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Basket;
+use App\Models\Comment;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
@@ -57,7 +58,8 @@ class ProductController extends Controller
         //
         $product = Product::query()->where('id', '=', $id)
             ->first();
-        return view('products.show', compact('product'));
+        $comments = Comment::query()->where('product_id', '=', $id)->get();
+        return view('products.show', compact('product', 'comments'));
     }
 
     /**
