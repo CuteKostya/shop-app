@@ -33,12 +33,12 @@ class CommentController extends Controller
         $userId = $user->id;
 
         $comment = new Comment();
-        $comment->product_id = $request->input('id');
-        $comment->description = $request->input('comment');
+        $comment->product_id = $request->input('productId');
+        $comment->description = $request->input('textComment');
         $comment->user_id = $userId;
-        $comment->grade = 4;
+        $comment->grade = $request->input('grade');
         $comment->save();
-        return redirect()->back();
+        return response()->json($request->all());
     }
 
     /**
