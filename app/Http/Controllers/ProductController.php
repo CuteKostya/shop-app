@@ -55,10 +55,14 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
         $product = Product::query()->where('id', '=', $id)
             ->first();
-        $comments = Comment::query()->where('product_id', '=', $id)->get();
+        $comments = Comment::query()
+            ->leftJoin('users', 'comments.user_id', '=', 'users.id')
+            ->where('product_id', '=', $id)
+            ->orderBy('comments.updated_at', 'desc')
+            ->get();
+
         return view('products.show', compact('product', 'comments'));
     }
 

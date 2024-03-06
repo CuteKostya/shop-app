@@ -14,5 +14,6 @@ class Comment extends Model
             'user_id',
             'description',
             'grade',
+            'updated_at',
         ];
 }
