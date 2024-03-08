@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Database\Seeder;
 
@@ -13,8 +14,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        echo 'aaa';
-
         Product::factory(10)->create();
+        Image::factory(10)->create();
     }
 }
