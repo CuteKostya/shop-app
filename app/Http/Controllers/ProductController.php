@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -25,7 +26,8 @@ class ProductController extends Controller
                 $join->on('products.id', '=', 'baskets.product_id')
                     ->where('baskets.user_id', $userId);
             })->where('withdrawn', false)
-            ->select('products.id', 'products.name', 'products.description',
+            ->select('products.id', 'products.grade', 'products.name',
+                'products.description',
                 'products.price', 'baskets.count');
 
         $limit = 10;
@@ -62,7 +64,7 @@ class ProductController extends Controller
             ->where('product_id', '=', $id)
             ->orderBy('comments.updated_at', 'desc')
             ->get();
-
+        
         return view('products.show', compact('product', 'comments'));
     }
 

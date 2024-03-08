@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Product;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
 {
@@ -38,6 +40,16 @@ class CommentController extends Controller
         $comment->user_id = $userId;
         $comment->grade = $request->input('grade');
         $comment->save();
+
+        $average = Comment::query()
+            ->select(DB::raw('avg(comments.grade) as average'))
+            ->where('product_id', '=', $request->input('productId'))
+            ->first()->average;
+        $prod = Product::where('id', '=', $request->input('productId'))
+            ->first();
+        $prod->grade = (double) $average;
+        $prod->save();
+
         return response()->json($request->all());
     }
 

@@ -88,9 +88,10 @@
 
                 success: function (data) {
                     console.log(data);
-
+                    location.reload();
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus)
                     console.log(textStatus, errorThrown);
                 }
             });

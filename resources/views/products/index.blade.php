@@ -16,6 +16,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Описание</th>
                 <th scope="col">Цена</th>
+                <th scope="col">Ср оценка</th>
                 <th scope="col">Просмотр</th>
                 <th scope="col">Корзина</th>
             </tr>
@@ -35,6 +36,9 @@
                         </td>
                         <td>
                             {{ $product->price }}
+                        </td>
+                        <td>
+                            {{ $product->grade }}
                         </td>
                         <td>
                             <form action="{{route('products.show', $product->id)}}" method="get">
