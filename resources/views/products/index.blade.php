@@ -9,45 +9,26 @@
     @if($products->isEmpty())
         {{  __("Товаров нет")}}
     @else
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Описание</th>
-                <th scope="col">Цена</th>
-                <th scope="col">Ср оценка</th>
-                <th scope="col">Просмотр</th>
-                <th scope="col">Корзина</th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($products as $product)
-                <tr>
-                    <div class="col-12 col-md-4">
-                        <td>
-                            {{ $product->id }}
-                        </td>
-                        <td>
+        <div class=" container overflow-hidden">
+            @foreach($products as $key => $product)
+                <div class="row border bg-light mt-3">
+                    <div class="col-3 pb-4">
+                        <img src=" {{$images->find($product->id)->url}}" class="img-fluid" alt="Responsive image">
+
+                    </div>
+                    <div class="col-7">
+                        <a href="{{route('products.show', $product->id)}}">
                             {{ $product->name }}
-                        </td>
-                        <td>
+                        </a>
+                        <p>
                             {{ $product->description }}
-                        </td>
-                        <td>
-                            {{ $product->price }}
-                        </td>
-                        <td>
+                        </p>
+                    </div>
+                    <div class="col-2">
+                        {{ $product->price }}
+                        <div class="col align-self-end">
+
                             {{ $product->grade }}
-                        </td>
-                        <td>
-                            <form action="{{route('products.show', $product->id)}}" method="get">
-                                <x-button type="submit">
-                                    {{'Просмотреть'}}
-                                </x-button>
-                            </form>
-                        </td>
-                        <td>
                             <div id="formAddProduct{{$product->id}}"
                                  style="display: {{$product->count ? 'block': 'none'}}">
                                 <div class="row">
@@ -76,12 +57,12 @@
                                       onclick="addToBasket({{$product->id}})" id="buttonAddProduct{{$product->id}}">
                                 {{'Добавить'}}
                             </x-button>
-                        </td>
+                        </div>
                     </div>
-                </tr>
+                </div>
+
             @endforeach
-            </tbody>
-        </table>
+        </div>
         {{$products->links()}}
     @endif
 

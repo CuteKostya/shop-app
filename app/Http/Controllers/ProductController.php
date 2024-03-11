@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Basket;
 use App\Models\Comment;
+use App\Models\Image;
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
@@ -30,10 +31,18 @@ class ProductController extends Controller
                 'products.description',
                 'products.price', 'baskets.count');
 
+        $ids = $query->pluck('id');
+
         $limit = 10;
         $products = $query->paginate($limit);
 
-        return view('products.index', compact('products'));
+
+        $images = Image::query()
+            ->Join('products', 'products.id', '=', 'images.product_id')
+            ->whereIn('products.id', $ids)
+            ->select('images.id', 'images.url')->get();
+
+        return view('products.index', compact('products', 'images'));
     }
 
     /**
@@ -64,7 +73,7 @@ class ProductController extends Controller
             ->where('product_id', '=', $id)
             ->orderBy('comments.updated_at', 'desc')
             ->get();
-        
+
         return view('products.show', compact('product', 'comments'));
     }
 
