@@ -17,7 +17,7 @@
 
                     </div>
                     <div class="col-7">
-                        <a href="{{route('products.show', $product->id)}}">
+                        <a class="fs-3 text-decoration-none " href="{{route('products.show', $product->id)}}">
                             {{ $product->name }}
                         </a>
                         <p>
@@ -25,28 +25,36 @@
                         </p>
                     </div>
                     <div class="col-2">
-                        {{ $product->price }}
-                        <div class="col align-self-end">
-
-                            {{ $product->grade }}
-                            <div id="formAddProduct{{$product->id}}"
-                                 style="display: {{$product->count ? 'block': 'none'}}">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <button type="submit" class="btn btn-secondary" name="action"
-                                                onclick="updateToBasket({{$product->id}}, 'decrease')"
-                                                value="decrease">-
-                                        </button>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>
-                                            <input name="quantity" id="countProduct{{$product->id}}"
-                                                   style="width: 30px"
-                                                   value=" {{ $product->count }}">
+                        <text class="fs-4"> {{ $product->price }} </text>
+                        <text class=" text-black-50">P</text>
+                        <div class="col-6">
+                            @if($product->grade != 0)
+                                <div class="stars float-right">
+                                    @for($i=5; $i>0; $i--)
+                                        <label class="stars__label {{ ($product->grade == $i) ? ' checked' : '' }}">
+                                            <input type="radio" name="star" value="{{$i}}" class="stars__input">
                                         </label>
+                                    @endfor
+                                </div>
+                            @endif
+                            <div class="position-absolute pt-5" id="formAddProduct{{$product->id}}"
+                                 style="display: {{$product->count ? 'block': 'none'}}">
+
+                                <div class="row justify-content-start">
+                                    <div class="col-4">
+                                        <x-button type="submit" class=" btn-lg btn-secondary" name="action"
+                                                  onclick="updateToBasket({{$product->id}}, 'decrease')"
+                                                  value="decrease">-
+                                        </x-button>
                                     </div>
-                                    <div class="col-md-4">
-                                        <x-button class="btn btn-secondary" name="action"
+                                    <div class="col-1">
+                                        <span id="countProduct{{$product->id}}" class="text-lg-center">
+                                            {{ $product->count }}
+                                        </span>
+                                    </div>
+                                    <div class="col-1">
+                                        <x-button class=" btn-lg btn-secondary"
+                                                  name="action"
                                                   onclick="updateToBasket({{$product->id}}, 'increase')"
                                                   value="increase">+
                                         </x-button>
@@ -58,9 +66,9 @@
                                 {{'Добавить'}}
                             </x-button>
                         </div>
+
                     </div>
                 </div>
-
             @endforeach
         </div>
         {{$products->links()}}
@@ -77,7 +85,7 @@
                     sign: sign,
                 },
                 success: function (data) {
-                    $("#countProduct" + productId).val(data['count']);
+                    $("#countProduct" + productId).text(data['count']);
                     if (data['count'] <= 0) {
                         $("#buttonAddProduct" + productId).css("display", "block");
                         $("#formAddProduct" + productId).css("display", "none");
@@ -104,7 +112,7 @@
                     if (data['count'] > 0) {
                         $("#buttonAddProduct" + data['productId']).css("display", "none");
                         $("#formAddProduct" + data['productId']).css("display", "block");
-                        $("#countProduct" + data['productId']).val(data['count']);
+                        $("#countProduct" + data['productId']).text(data['count']);
 
                     }
                     console.log(data['productId']);
