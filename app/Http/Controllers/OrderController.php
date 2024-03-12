@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Order_item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
@@ -70,6 +71,13 @@ class OrderController extends Controller
         Mail::to('k.kudishin421421@yandex.ru')->send(new OrderMail($products,
             $user));
 
+        Log::channel('daily')
+            ->info('User {user_id} created a new order {order_id}',
+                [
+                    'user_id' => $userId,
+                    'order_id' => $order->id,
+                ]
+            );
         return redirect()->route('basket');
     }
 
