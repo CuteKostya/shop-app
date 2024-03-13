@@ -19,6 +19,10 @@
 
 ![img.png](img.png)
 
+## Таблица классов
+
+![img_3.png](img_3.png)
+
 ## Скриншоты
 
 ![img_1.png](img_1.png)
