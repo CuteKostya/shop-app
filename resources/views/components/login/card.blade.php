@@ -12,15 +12,17 @@
     </x-card-header>
 
     <x-card-body>
+        <x-errors/>
         <x-form action="{{ route('login.store') }}" method="POST">
             <x-form-item>
-                <x-label required>{{ __('Email') }}</x-label>
-                <x-input type="email" name="email" autofocus/>
+                <x-checks type="email" name="email" autofocus>
+                    {{ __('Email') }}
+                </x-checks>
             </x-form-item>
-
             <x-form-item>
-                <x-label required>{{ __('Пароль') }}</x-label>
-                <x-input type="password" name="password"/>
+                <x-checks type="password" name="password" autofocus>
+                    {{ __('Пароль') }}
+                </x-checks>
             </x-form-item>
 
             <x-form-item>

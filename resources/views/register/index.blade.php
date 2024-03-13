@@ -39,7 +39,7 @@
 
                 <x-form-item>
                     <x-checks type="password" name="password_confirmation">
-                        {{ __('Пароль еще раз') }}
+                        {{ __('Еще раз') }}
                     </x-checks>
                 </x-form-item>
 

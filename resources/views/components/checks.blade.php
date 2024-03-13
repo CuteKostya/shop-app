@@ -2,7 +2,7 @@
 
 
 <div class="input-group">
-    <div class="input-group-prepend col-lg-2 col-md-3">
+    <div class="input-group-prepend col-4">
         <span class="input-group-text">        {{ $slot }}</span>
     </div>
 
@@ -10,7 +10,6 @@
     'type' => $type,
     'name' => $name,
     'value' => $value,
-    'class' => 'col-4'
 ]) }} />
 
 </div>

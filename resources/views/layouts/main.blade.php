@@ -103,7 +103,7 @@
         </form>
     </nav>
 </header>
-<main class="flex-shrink-0 pt-5 container">
+<main class="flex-shrink-0 pt-5 ">
 
     @yield('main_content')
 </main>
