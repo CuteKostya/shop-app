@@ -22,8 +22,7 @@
 @endif
 
 <input {{ $attributes->class([
-    ($type == 'text' ? 'form-control' : ''),
-    (($type == 'checkbox' || $type == 'radio') ? 'form-check-input' : ''),
+    (($type == 'checkbox' || $type == 'radio') ? 'form-check-input' : 'form-control'),
 
 ])->merge([
     'type' => $type,
