@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Basket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class BasketController extends Controller
@@ -66,7 +67,7 @@ class BasketController extends Controller
                 ->where('product_id', '=', $request->productId)
                 ->update(['count' => $count]);
         }
-
+        Cache::delete('countProducts:'.$userId);
         $request->merge(['count' => $count]);
         return response()->json($request->all());
     }

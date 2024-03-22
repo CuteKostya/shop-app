@@ -9,6 +9,7 @@ use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -112,6 +113,7 @@ class ProductController extends Controller
         $result = [
             'count' => $count,
         ];
+        Cache::delete('countProducts:'.$userId);
         return response()->json($result);
     }
 
