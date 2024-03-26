@@ -3,6 +3,7 @@
 @section('page.title', 'Регистрация')
 
 @section('auth.content')
+    {!! htmlScriptTagJsApi() !!}
     <x-card>
         <x-card-header>
             <x-card-title>
@@ -46,9 +47,10 @@
                 <x-form-item>
                     <x-checkbox name="agreement" :checked="!! request()->old('agreement')">
                         {{ __('Я согласен на обработку пользовательский данных') }}
+
                     </x-checkbox>
                 </x-form-item>
-
+                {!! htmlFormSnippet() !!}
                 <x-button type="submit">
                     {{ __('Войти') }}
                 </x-button>
