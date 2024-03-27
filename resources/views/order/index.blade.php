@@ -9,6 +9,7 @@
     @if($orders->isEmpty())
         {{  __("Корзина пуста")}}
     @else
+        <a href="{{route('order.export')}}">Просмотреть</a>
         <table class="table">
             <thead>
             <tr>

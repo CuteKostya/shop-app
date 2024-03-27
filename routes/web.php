@@ -59,6 +59,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('basket', [BasketController::class, 'destroyAll'])
         ->name('basket.destroyAll');
 
+    Route::get('order/export', [OrderController::class, 'export'])
+        ->name('order.export');
+    
     Route::get('order', [OrderController::class, 'index'])
         ->name('order');
 
