@@ -5,16 +5,17 @@
 @endsection
 
 @section('main_content')
-
-    @if($products->isEmpty())
-        {{  __("Товаров нет")}}
-    @else
-        <div class=" container overflow-hidden">
+    <div class="container">
+        @if($products->isEmpty())
+            {{  __("Товаров нет")}}
+        @else
             @foreach($products as $key => $product)
                 <div class="row border bg-light mt-3">
-                    <div class="col-3 pb-4">
-                        <img src=" {{$images->find($product->id)->url}}" class="img-fluid" alt="Responsive image">
-
+                    <div class="col-3 pb-4"
+                         style="min-height: 200px;">
+                        @if($images->find($product->id))
+                            <img src=" {{$images->find($product->id)->url}}" class="img-fluid" alt="Responsive image">
+                        @endif
                     </div>
                     <div class="col-7">
                         <a class="fs-3 text-decoration-none " href="{{route('products.show', $product->id)}}">
@@ -70,59 +71,60 @@
                     </div>
                 </div>
             @endforeach
-        </div>
-        {{$products->links()}}
-    @endif
 
-    <script>
-        function updateToBasket(productId, sign) {
-            $.ajax({
-                url: "/products/" + productId,
-                type: "put",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    productId: productId,
-                    sign: sign,
-                },
-                success: function (data) {
-                    $("#countProduct" + productId).text(data['count']);
-                    if (data['count'] <= 0) {
-                        $("#buttonAddProduct" + productId).css("display", "block");
-                        $("#formAddProduct" + productId).css("display", "none");
+            {{$products->links()}}
+        @endif
+
+        <script>
+            function updateToBasket(productId, sign) {
+                $.ajax({
+                    url: "/products/" + productId,
+                    type: "put",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        productId: productId,
+                        sign: sign,
+                    },
+                    success: function (data) {
+                        $("#countProduct" + productId).text(data['count']);
+                        if (data['count'] <= 0) {
+                            $("#buttonAddProduct" + productId).css("display", "block");
+                            $("#formAddProduct" + productId).css("display", "none");
+                        }
+                        extracted();
+                        console.log(data);
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus, errorThrown);
                     }
-                    extracted();
-                    console.log(data);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
-                }
-            });
-        }
+                });
+            }
 
-        function addToBasket(productId) {
-            $.ajax({
-                url: "/basket/store",
-                type: "POST",
-                data: {
-                    "_token": "{{ csrf_token() }}",
-                    productId: productId,
-                },
+            function addToBasket(productId) {
+                $.ajax({
+                    url: "/basket/store",
+                    type: "POST",
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        productId: productId,
+                    },
 
-                success: function (data) {
-                    if (data['count'] > 0) {
-                        $("#buttonAddProduct" + data['productId']).css("display", "none");
-                        $("#formAddProduct" + data['productId']).css("display", "block");
-                        $("#countProduct" + data['productId']).text(data['count']);
+                    success: function (data) {
+                        if (data['count'] > 0) {
+                            $("#buttonAddProduct" + data['productId']).css("display", "none");
+                            $("#formAddProduct" + data['productId']).css("display", "block");
+                            $("#countProduct" + data['productId']).text(data['count']);
 
+                        }
+                        console.log(data['productId']);
+                        extracted();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(textStatus, errorThrown);
                     }
-                    console.log(data['productId']);
-                    extracted();
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
-                }
-            });
-        }
+                });
+            }
 
-    </script>
+        </script>
+    </div>
 @endsection
