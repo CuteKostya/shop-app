@@ -3,15 +3,23 @@
 namespace App\Exports;
 
 use App\Models\Order;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\FromQuery;
 
-class OrdersExport implements FromCollection
+class OrdersExport implements FromQuery
 {
+    use Exportable;
+
     /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+     * @return \Illuminate\Database\Eloquent\Builder|\LaravelIdea\Helper\App\Models\_IH_Order_QB
+     */
+    public function __construct(int $id)
     {
-        return Order::all();
+        $this->id = $id;
+    }
+
+    public function query()
+    {
+        return Order::query()->where('user_id', $this->id);
     }
 }

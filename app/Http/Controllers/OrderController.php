@@ -101,6 +101,8 @@ class OrderController extends Controller
 
     public function export(Request $request)
     {
-        return Excel::download(new OrdersExport, 'orders.xlsx');
+        $user = Auth::user();
+        $userId = $user->id;
+        return (new OrdersExport($userId))->download('invoices.xlsx');
     }
 }
