@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class BasketController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $user = Auth::user();
@@ -25,19 +22,6 @@ class BasketController extends Controller
         return view('basket.index', compact('products'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $count = 0;
@@ -46,8 +30,6 @@ class BasketController extends Controller
         $existsProduct = Basket::where('product_id', '=', $request->productId)
             ->where('user_id', '=', $userId)
             ->exists();
-
-
         if ( ! $existsProduct) {
             $count = 1;
             $user = Auth::user();
@@ -72,40 +54,13 @@ class BasketController extends Controller
         return response()->json($request->all());
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy($id)
     {
         $user = Auth::user();
         $userId = $user->id;
         $res = Basket::where('product_id', $id)
             ->delete();
-
+        Cache::delete('countProducts:'.$userId);
         return redirect()->route('basket');
     }
 
@@ -115,7 +70,7 @@ class BasketController extends Controller
         $userId = $user->id;
         $res = Basket::where('user_id', '=', $userId)
             ->delete();
-
+        Cache::delete('countProducts:'.$userId);
         return redirect()->route('basket');
     }
 }
