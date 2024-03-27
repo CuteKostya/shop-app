@@ -65,8 +65,10 @@ class OrderController extends Controller
             ]);
             $order_item->save();
         }
-        //Basket::truncate();
 
+        Basket::where('user_id', '=', $userId)
+            ->delete();
+        Cache::delete('countProducts:'.$userId);
         $products = Order_item::query()
             ->leftJoin('products', 'Order_items.product_id', '=', 'products.id')
             ->where('order_id', '=', $order->id)->get();
