@@ -44,7 +44,7 @@
                                 <div class="row justify-content-start">
                                     <div class="col-4">
                                         <x-button type="submit" class=" btn-lg btn-secondary" name="action"
-                                                  onclick="updateToBasket({{$product->id}}, 'decrease')"
+                                                  @click="updateToBasket({{$product->id}}, 'decrease')"
                                                   value="decrease">-
                                         </x-button>
                                     </div>
@@ -56,14 +56,14 @@
                                     <div class="col-1">
                                         <x-button class=" btn-lg btn-secondary"
                                                   name="action"
-                                                  onclick="updateToBasket({{$product->id}}, 'increase')"
+                                                  @click="updateToBasket({{$product->id}}, 'increase')"
                                                   value="increase">+
                                         </x-button>
                                     </div>
                                 </div>
                             </div>
                             <x-button style="display: {{$product->count ? 'none': 'block'}}"
-                                      onclick="addToBasket({{$product->id}})" id="buttonAddProduct{{$product->id}}">
+                                      @click="addToBasket({{$product->id}})" id="buttonAddProduct{{$product->id}}">
                                 {{'Добавить'}}
                             </x-button>
                         </div>
@@ -74,57 +74,5 @@
 
             {{$products->links()}}
         @endif
-
-        <script>
-            function updateToBasket(productId, sign) {
-                $.ajax({
-                    url: "/products/" + productId,
-                    type: "put",
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        productId: productId,
-                        sign: sign,
-                    },
-                    success: function (data) {
-                        $("#countProduct" + productId).text(data['count']);
-                        if (data['count'] <= 0) {
-                            $("#buttonAddProduct" + productId).css("display", "block");
-                            $("#formAddProduct" + productId).css("display", "none");
-                        }
-                        extracted();
-                        console.log(data);
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.log(textStatus, errorThrown);
-                    }
-                });
-            }
-
-            function addToBasket(productId) {
-                $.ajax({
-                    url: "/basket/store",
-                    type: "POST",
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        productId: productId,
-                    },
-
-                    success: function (data) {
-                        if (data['count'] > 0) {
-                            $("#buttonAddProduct" + data['productId']).css("display", "none");
-                            $("#formAddProduct" + data['productId']).css("display", "block");
-                            $("#countProduct" + data['productId']).text(data['count']);
-
-                        }
-                        console.log(data['productId']);
-                        extracted();
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        console.log(textStatus, errorThrown);
-                    }
-                });
-            }
-
-        </script>
     </div>
 @endsection
