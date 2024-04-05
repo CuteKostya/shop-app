@@ -30,7 +30,6 @@ class RegisterController extends Controller
                 'required', 'string', 'min:7', 'max:50', 'confirmed',
             ],
             'agreement' => ['accepted'],
-            'g-recaptcha-response' => ['recaptcha'],
         ]);
 
         $user = User::query()->create([
