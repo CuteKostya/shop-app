@@ -1,24 +1,38 @@
 <template>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card">
-          <div class="card-header">Example Component</div>
-
-          <div class="card-body">
-            I'm an example component.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  {{ countProducts }}
 </template>
 
 <script>
+
+
 export default {
   name: 'example-component',
-  mounted() {
-    console.log('Component mounted.')
-  }
+  data() {
+    return {
+      countProducts: 0,
+    }
+  },
+  mounted: function () {
+    this.extracted();
+  },
+  methods: {
+    extracted: function () {
+      axios.post('/helper/countProduct', {
+        params: {
+          "_token": "{{ csrf_token() }}",
+        }
+      })
+          .then(res => {
+            this.countProducts = res.data['countProducts'];
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+            // выполняется всегда
+          });
+    },
+  },
 }
+
 </script>

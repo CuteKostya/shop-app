@@ -37,6 +37,11 @@ class ProductController extends Controller
         $limit = 10;
         $products = $query->paginate($limit);
 
+        foreach ($products as $product) {
+            if ($product->count == null) {
+                $product->count = 0;
+            }
+        }
 
         $images = Image::query()
             ->Join('products', 'products.id', '=', 'images.product_id')
@@ -91,18 +96,18 @@ class ProductController extends Controller
      */
     public function update(Request $request)
     {
-        $id = $request->input('productId');
+        $productId = $request->params['productId'];
         $user = Auth::user();
         $userId = $user->id;
         $product = Basket::query()
-            ->where('product_id', $id)
+            ->where('product_id', $productId)
             ->where('user_id', '=', $userId)->first();
         $count = $product->count;
-        if ($request->input('sign') == 'increase') {
+        if ($request->params['sign'] == 'increase') {
             $product->count++;
             $count++;
             $product->save();
-        } elseif ($request->input('sign') == 'decrease') {
+        } elseif ($request->params['sign'] == 'decrease') {
             $product->count--;
             $count--;
             $product->save();

@@ -25,33 +25,32 @@ class BasketController extends Controller
     public function store(Request $request)
     {
         $count = 0;
-        $user = Auth::user();
-        $userId = $user->id;
-        $existsProduct = Basket::where('product_id', '=', $request->productId)
+        $userId = Auth::user()->id;
+        $productId = $request->params['productId'];
+        $existsProduct = Basket::where('product_id', '=',
+            $productId)
             ->where('user_id', '=', $userId)
             ->exists();
         if ( ! $existsProduct) {
             $count = 1;
-            $user = Auth::user();
-            $userId = $user->id;
             Basket::query()->create([
-                'product_id' => $request->productId,
+                'product_id' => $productId,
                 'user_id' => $userId,
                 'count' => $count,
             ]);
         } else {
             $product = Basket::query()
-                ->where('product_id', '=', $request->productId)
+                ->where('product_id', '=', $productId)
                 ->get('count');
             $count = $product->value('count') + 1;
 
             Basket::query()
-                ->where('product_id', '=', $request->productId)
+                ->where('product_id', '=', $productId)
                 ->update(['count' => $count]);
         }
         Cache::delete('countProducts:'.$userId);
-        $request->merge(['count' => $count]);
-        return response()->json($request->all());
+        $res = ['count' => $count];
+        return response()->json($res);
     }
 
     public function destroy($id)

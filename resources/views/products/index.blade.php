@@ -38,34 +38,8 @@
                                     @endfor
                                 </div>
                             @endif
-                            <div class="position-absolute pt-5" id="formAddProduct{{$product->id}}"
-                                 style="display: {{$product->count ? 'block': 'none'}}">
-
-                                <div class="row justify-content-start">
-                                    <div class="col-4">
-                                        <x-button type="submit" class=" btn-lg btn-secondary" name="action"
-                                                  @click="updateToBasket({{$product->id}}, 'decrease')"
-                                                  value="decrease">-
-                                        </x-button>
-                                    </div>
-                                    <div class="col-1">
-                                        <span id="countProduct{{$product->id}}" class="text-lg-center">
-                                            {{ $product->count }}
-                                        </span>
-                                    </div>
-                                    <div class="col-1">
-                                        <x-button class=" btn-lg btn-secondary"
-                                                  name="action"
-                                                  @click="updateToBasket({{$product->id}}, 'increase')"
-                                                  value="increase">+
-                                        </x-button>
-                                    </div>
-                                </div>
-                            </div>
-                            <x-button style="display: {{$product->count ? 'none': 'block'}}"
-                                      @click="addToBasket({{$product->id}})" id="buttonAddProduct{{$product->id}}">
-                                {{'Добавить'}}
-                            </x-button>
+                            <changes-count-products-component :product_id="{{$product->id}}"
+                                                              :product_count="{{$product->count}}"></changes-count-products-component>
                         </div>
 
                     </div>
