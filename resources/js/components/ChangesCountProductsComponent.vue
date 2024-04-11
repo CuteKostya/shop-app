@@ -67,12 +67,7 @@ export default {
       })
           .then(res => {
             this.productCount = res.data['count'];
-            // this.countProducts = res.data;
-            // if (res['count'] > 0) {
-            //   $("#buttonAddProduct" + res['productId']).css("display", "none");
-            //   $("#formAddProduct" + res['productId']).css("display", "block");
-            //   $("#countProduct" + res['productId']).text(res['count']);
-            // }
+            this.$store.commit('extracted')
           })
           .catch(function (error) {
             console.log(error);
@@ -91,12 +86,7 @@ export default {
       })
           .then(res => {
             this.productCount = res.data['count'];
-            // this.countProducts = res.data;
-            // $("#countProduct" + this.productId).text(res['count']);
-            // if (res['count'] <= 0) {
-            //   $("#buttonAddProduct" + this.productId).css("display", "block");
-            //   $("#formAddProduct" + this.productId).css("display", "none");
-            // }
+            this.$store.commit('extracted')
           })
           .catch(function (error) {
             console.log(error);
