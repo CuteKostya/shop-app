@@ -1,4 +1,5 @@
 <template>
+  <div v-if="! isLoading">
   <div v-if="! productCount">
     <input type="button" style="display: {{productCount ? 'none': 'block'}}"
            class="btn btn-lg btn-secondary"
@@ -32,6 +33,10 @@
 
     </div>
   </div>
+  </div>
+  <div v-else>
+    <div class="loader"></div>
+  </div>
 </template>
 
 <script>
@@ -40,6 +45,7 @@ export default {
   data() {
     return {
       productCount: 0,
+      isLoading: false,
     };
   },
   props: {
@@ -59,6 +65,7 @@ export default {
   },
   methods: {
     addToBasket () {
+      this.isLoading = true;
       axios.post( "/basket/store", {
         params: {
           "_token": "{{ csrf_token() }}",
@@ -67,7 +74,8 @@ export default {
       })
           .then(res => {
             this.productCount = res.data['count'];
-            this.$store.commit('extracted')
+            this.$store.commit('extracted');
+            this.isLoading = false;
           })
           .catch(function (error) {
             console.log(error);
@@ -77,6 +85,7 @@ export default {
           });
     },
     updateToBasket (sign) {
+      this.isLoading = true;
       axios.put( "/products/" + this.product_id, {
         params: {
           "_token": "{{ csrf_token() }}",
@@ -87,6 +96,7 @@ export default {
           .then(res => {
             this.productCount = res.data['count'];
             this.$store.commit('extracted')
+            this.isLoading = false;
           })
           .catch(function (error) {
             console.log(error);
@@ -98,3 +108,18 @@ export default {
   }
 }
 </script>
+<style>
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
