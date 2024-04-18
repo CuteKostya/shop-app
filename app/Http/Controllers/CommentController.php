@@ -31,26 +31,25 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
-        $userId = $user->id;
-
+        $userId = Auth::user()->id;
+        $product_id = $request->params['productId'];
         $comment = new Comment();
-        $comment->product_id = $request->input('productId');
-        $comment->description = $request->input('textComment');
+        $comment->product_id = $product_id;
+        $comment->description = $request->params['textComment'];
         $comment->user_id = $userId;
-        $comment->grade = $request->input('grade');
+        $comment->grade = $request->params['grade'];
         $comment->save();
 
         $average = Comment::query()
             ->select(DB::raw('avg(comments.grade) as average'))
-            ->where('product_id', '=', $request->input('productId'))
+            ->where('product_id', '=', $product_id)
             ->first()->average;
-        $prod = Product::where('id', '=', $request->input('productId'))
+        $prod = Product::where('id', '=', $product_id)
             ->first();
         $prod->grade = (double) $average;
         $prod->save();
 
-        return response()->json($request->all());
+        return response()->json($request);
     }
 
     /**

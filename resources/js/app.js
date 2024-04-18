@@ -6,6 +6,8 @@ import {createStore} from 'vuex'
 import ExampleComponent from './components/ExampleComponent.vue';
 import CountProductsComponent from "./components/ChangesCountProductsComponent.vue";
 import ChangesCountProductsComponent from "./components/ChangesCountProductsComponent.vue";
+import AddingCommentComponent from "./components/AddingCommentComponent.vue";
+import AverageStarComponent from "./components/AverageStarComponent.vue";
 
 const store = createStore({
     state() {
@@ -37,5 +39,7 @@ createApp({
         ChangesCountProductsComponent,
         CountProductsComponent,
         ExampleComponent,
+        AddingCommentComponent,
+        AverageStarComponent,
     }
 }).use(store).mount('#app');

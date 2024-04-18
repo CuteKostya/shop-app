@@ -29,15 +29,8 @@
                         <text class="fs-4"> {{ $product->price }} </text>
                         <text class=" text-black-50">P</text>
                         <div class="col-6">
-                            @if($product->grade != 0)
-                                <div class="stars float-right">
-                                    @for($i=5; $i>0; $i--)
-                                        <label class="stars__label {{ ($product->grade == $i) ? ' checked' : '' }}">
-                                            <input type="radio" name="star" value="{{$i}}" class="stars__input">
-                                        </label>
-                                    @endfor
-                                </div>
-                            @endif
+                            <average-star-component :product_grade="{{$product->grade}}">
+                            </average-star-component>
                             <changes-count-products-component :product_id="{{$product->id}}"
                                                               :product_count="{{$product->count}}"></changes-count-products-component>
                         </div>

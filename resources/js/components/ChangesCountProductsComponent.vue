@@ -58,10 +58,6 @@ export default {
   },
   mounted: function () {
     this.productCount = this.product_count;
-
-  },
-  computed:{
-
   },
   methods: {
     addToBasket () {

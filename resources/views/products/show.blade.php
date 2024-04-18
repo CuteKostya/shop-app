@@ -35,19 +35,7 @@
 
             </tbody>
         </table>
-
-        <div class="stars">
-            @for($i=5; $i>0; $i--)
-                <label class="stars__label stars_id">
-                    <input type="radio" name="star" value="{{$i}}" class="stars__input">
-                </label>
-            @endfor
-        </div>
-        <div>
-            <textarea class="form-control" aria-label="With textarea" id="textComment"></textarea>
-            </br>
-            <x-button type="submit" onclick="addComment({{$product->id}})">Отправить</x-button>
-        </div>
+        <adding-comment-component :product_id="{{$product->id}}"></adding-comment-component>
         </br>
         </br>
         @foreach($comments as $comment)
